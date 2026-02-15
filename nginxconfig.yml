@@ -1,0 +1,29 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: mydeploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: mycontainer
+        image: nginx
+        ports:
+        - containerPort: 81
+        volumeMounts:
+        - name: myvolume
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+      volumes:
+      - name: myvolume
+        configMap:
+          name: nginxconfig
+
+ 
